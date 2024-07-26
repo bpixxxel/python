@@ -1,3 +1,30 @@
+# ### Step 1: Capture TCP Packets
+# You can use `tcpdump` to capture TCP packets and save them to a file. Here is an example command to capture packets and save them to a file named `packets.pcap`:
+# ```sh
+# sudo tcpdump -i any tcp -w packets.pcap
+# ```
+# - `-i any`: Listen on all interfaces.
+# - `tcp`: Capture only TCP packets.
+# - `-w packets.pcap`: Write the captured packets to `packets.pcap` file.
+
+# ### Step 2: Extract Packet Details
+# After capturing the packets, you can use a tool like `tshark` (the command-line version of Wireshark) to extract the necessary details (sequence number, flags, and IP address) from the `packets.pcap` file.
+
+# Example command to extract details:
+# ```sh
+# tshark -r packets.pcap -T fields -e tcp.seq -e tcp.flags -e ip.src
+# ```
+# - `-r packets.pcap`: Read packets from the `packets.pcap` file.
+# - `-T fields`: Output specific fields.
+# - `-e tcp.seq`: Extract the TCP sequence number.
+# - `-e tcp.flags`: Extract the TCP flags.
+# - `-e ip.src`: Extract the source IP address.
+
+# ### Step 3: Parse and Feed Data into Script
+#    ```sh
+#    tshark -r packets.pcap -T fields -e tcp.seq -e tcp.flags -e ip.src > packet_details.txt
+#    ```
+
 from collections import defaultdict
 from pprint import pprint
 
