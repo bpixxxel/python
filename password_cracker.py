@@ -74,16 +74,21 @@ def brute_force_crack(hash_to_crack, max_length, algorithm):
                 return password
     return "Password not found."
 
-dictionary_file = 'dictionary.txt'
-hash_to_crack = '1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032'  # SHA-256 hash for 'password'
-algorithm = 'sha256'  # Choose from 'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'sha3_224', 'sha3_256', 'sha3_384', 'sha3_512', 'shake_128', 'shake_256', 'blake2b', 'blake2s'
+def main():
+    hash_to_crack = input("Enter the hash to crack: ").strip()
+    algorithm = input("Enter the hash algorithm (e.g., md5, sha256, etc.): ").strip()
+    dictionary_file = 'dictionary.txt'
 
-create_dictionary_file(dictionary_file)
+    create_dictionary_file(dictionary_file)
 
-# Attempt to crack using dictionary attack
-password = crack_password_from_dict(hash_to_crack, dictionary_file, algorithm)
-if password == "Password not found.":
-    # If dictionary attack fails, attempt brute-force cracking
-    password = brute_force_crack(hash_to_crack, max_length=4, algorithm=algorithm)  # Adjust max_length as needed
+    # Attempt to crack using dictionary attack
+    password = crack_password_from_dict(hash_to_crack, dictionary_file, algorithm)
+    if password == "Password not found.":
+        # If dictionary attack fails, attempt brute-force cracking
+        max_length = int(input("Enter the maximum length for brute-force cracking: ").strip())
+        password = brute_force_crack(hash_to_crack, max_length, algorithm)
 
-print(f"Cracked password: {password}")
+    print(f"Cracked password: {password}")
+
+if __name__ == "__main__":
+    main()
